@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/styles.css' %}">
+        <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+        <script src="{% static 'login_register/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'login_register/js/script.js' %}"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand">Test App</a>
+                <ul class="nav navbar-nav">
+                    {% if request.session.user_id %}
+                        <li><a href="{% url 'dashboard:index' %}">Dashboard</a></li>
+                        <li><a href="{% url 'users:show_user' user_id=request.session.user_id %}">Profile</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login_register:index' %}">Home</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.user_id %}
+                        <li><a href="{% url 'login_register:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login_register:signin' %}">Sign in</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <h3>
+            {% if request.session.is_admin %}
+                Manage Users
+            {% else %}
+                All Users
+            {% endif %}
+            <a href="{% url 'users:new_user_admin' %}" class="navbar-right btn btn-info">Add new</a>
+            </h3>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Created On</th>
+                        <th>User Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td><a href="{% url 'users:show_user' user_id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a></td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.created_on }}</td>
+                            {% if user.user_level == 9 %}
+                                <td>admin</td>
+                            {% else %}
+                                <td>normal</td>
+                            {% endif %}
+                            {% if request.session.is_admin %}
+                                <td><a href="{% url 'users:edit_user_admin' user_id=user.id %}">edit</a> <a href="{% url 'users:destroy_user_admin' user_id=user.id %}">remove</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

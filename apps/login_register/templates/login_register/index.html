@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/styles.css' %}">
+        <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+        <script src="{% static 'login_register/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'login_register/js/script.js' %}"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand">Test App</a>
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'login_register:signin' %}">Sign in</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="home-container container">
+            <h3>Welcome to the Test</h3>
+            <p>We're going to build a cool application using a MVC framework! This application was built with the Village88 folks!</p>
+            <a class="btn btn-info" href="{% url 'login_register:signin' %}">Start</a>
+        </div>
+        <div class="home-container-bottom container">
+            <div class="col-md-4">
+                <h3>Manage Users</h3>
+                <p>Using this application, you'll learn how to add, remove, and edit users for the application.</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Leave messages</h3>
+                <p>Users will be able to leave a message to another user using this application</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Edit User Information</h3>
+                <p>Admins will be able to edit another user's information (email address, first name, last name, etc)</p>
+            </div>
+        </div>
+    </body>
+</html>

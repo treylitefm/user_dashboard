@@ -1,0 +1,21 @@
+.login-register.container {
+   width: 500px;
+   border: 3px solid black;
+   padding: 5px 25px 25px 25px;
+}
+
+.home-container {
+   background-color: lightgray;
+   border: 3px solid black;
+   padding: 5px 25px 25px 25px;
+}
+
+form button {
+    width: 50%;
+}
+
+form.edit {
+   border: 3px solid black;
+   padding: 5px 25px 25px 25px;
+   margin-bottom: 25px;
+}
