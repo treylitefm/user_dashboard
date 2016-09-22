@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'login_register/css/styles.css' %}">
+        <script src="{% static 'login_register/js/jquery.min.js' %}"></script>
+        <script src="{% static 'login_register/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'login_register/js/script.js' %}"></script>
+    </head>
+    <body>
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <a class="navbar-brand">Test App</a>
+                <ul class="nav navbar-nav">
+                    {% if request.session.user_id %}
+                    <li><a href="{% url 'dashboard:index' %}">Dashboard</a></li>
+                        <li><a href="{% url 'users:show_user' user_id=request.session.user_id %}">Profile</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login_register:index' %}">Home</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.session.user_id %}
+                        <li><a href="{% url 'login_register:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login_register:signin' %}">Sign in</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="wall-container container">
+            <div>
+                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <div class="col-md-2">
+                    <p>Registered at:</p>
+                    <p>User ID:</p>
+                    <p>Email Address:</p>
+                    <p>Description:</p>
+                </div>
+                <div class="col-md-10">
+                    <p>{{ user.created_on }}</p>
+                    <p>{{ user.id }}</p>
+                    <p>{{ user.email }}</p>
+                    <p>{{ user.description }}</p>
+                </div>
+            </div>
+            <form class="col-md-12" method="post" action="{% url 'users:post_message' user_id=user.id %}">
+                <h4>Leave a message for {{ user.first_name }}</h4>
+                {% csrf_token %}
+                <div class="form-group">
+                    <textarea name="message" class="form-control" placeholder="Write a message" rows="4"></textarea>
+                </div>
+                <button type="submit" class="navbar-right btn btn-info center-block">Post</button>
+            </form>
+            {% for message in messages %}
+                <div class="col-md-12 message">
+                    <p>{{ message.message }}</p>
+                    {% for c in message.comment_set.all %}
+                    <div class="col-md-11 col-md-offset-1 message">
+                        <p>{{ c.comment }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <form class="col-md-11 col-md-offset-1" method="post" action="{% url 'users:post_comment' message_id=message.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea name="comment" class="form-control" placeholder="Write a comment" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="navbar-right btn btn-info center-block">Post</button>
+                </form>
+            {% endfor %}
+        </div>
+    </body>
+</html>

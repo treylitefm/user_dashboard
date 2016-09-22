@@ -95,7 +95,7 @@ class UserManager(models.Manager):
     def update_user(self, session_user_id, user_id, data, is_admin):
         response = { 'updated': False }
 
-        if session_user_id == user_id or is_admin == True:
+        if str(session_user_id) == str(user_id) or is_admin == True:
             kwargs = {}
             user = None
 

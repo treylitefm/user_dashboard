@@ -4,6 +4,26 @@
    padding: 5px 25px 25px 25px;
 }
 
+.wall-container form {
+    margin-bottom: 20px;
+}
+
+.wall-container form button {
+    width: 10%;
+}
+
+.wall-container div.message {
+    min-height: 90px;
+    border-left: 1px solid lightgray;
+    padding-top: 10px;
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
+
+.wall-container h2 {
+    margin-left: 15px;
+}
+
 .home-container {
    background-color: lightgray;
    border: 3px solid black;

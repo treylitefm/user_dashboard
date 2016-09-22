@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.core.urlresolvers import reverse
 from ..login_register.models import User
+from models import Message,Comment
 
 def index(request):
     return redirect(reverse('dashboard:index'))
@@ -8,9 +9,10 @@ def index(request):
 def show_user(request, user_id):
     context = {
         'user': User.objects.get(id=user_id),
-        'messages': []
+        'messages': Message.objects.filter(user_to=user_id).order_by('-created_on')
     }
-    return render(request, 'users/show_user.html')
+
+    return render(request, 'users/show_user.html', context)
 
 def new_user_admin(request):
     if request.session['is_admin']:
@@ -47,3 +49,17 @@ def update_user(request, user_id):
         if not res['updated']:
             return redirect(reverse('users:edit_user'))
     return redirect(reverse('dashboard:index'))
+
+def post_comment(request, message_id):
+    user = User.objects.get(id=request.session['user_id'])
+    message = Message.objects.get(id=message_id)
+    comment = Comment.objects.create(message=message,user=user,comment=request.POST['comment'])
+    comment.save()
+    return redirect(reverse('users:show_user', kwargs={'user_id': message.user_to.id}))
+
+def post_message(request, user_id):
+    user_to = User.objects.get(id=user_id)
+    user_from = User.objects.get(id=request.session['user_id'])
+    message = Message.objects.create(user_to=user_to, user_from=user_from, message=request.POST['message'])
+    message.save()
+    return redirect(reverse('users:show_user', kwargs={'user_id': user_id}))
