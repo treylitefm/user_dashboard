@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'main_user_dashboard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dojo-user-dashboard',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '192.168.99.100',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'postgres-server',
+        'PORT': '5432'
     }
 }
 
